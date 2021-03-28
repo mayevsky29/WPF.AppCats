@@ -1,0 +1,102 @@
+﻿<Window x:Class="Wpf.CatRenta.AddCatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf.CatRenta"
+        mc:Ignorable="d"
+        Title="Додати нового кота" Height="434" Width="450" Loaded="Window_Loaded">
+    <DockPanel Margin="10">
+        <StackPanel>
+            <WrapPanel Margin="5">
+                <Label Content="Кличка кота:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="152"/>
+                <TextBox x:Name="tbName" 
+                         HorizontalAlignment="Left" 
+                         Height="30" 
+                         TextWrapping="Wrap" 
+                         VerticalAlignment="Top" 
+                         Width="238"/>
+            </WrapPanel>
+
+            <WrapPanel Margin="5">
+                <Label Content="Ціна:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="152"/>
+                <TextBox x:Name="tbPrice" 
+                         HorizontalAlignment="Left" 
+                         Height="30" 
+                         TextWrapping="Wrap" 
+                         VerticalAlignment="Top" 
+                         Width="238"/>
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <Label Content="Дата народження:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="152"/>
+                <!--<TextBox Name="tbBirthday" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="238"/>-->
+                <DatePicker x:Name="dpDate" 
+                            SelectedDate="{Binding Birthday}" 
+                            BorderThickness="0" />
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <Label Content="Деталі:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="152"/>
+                <TextBox x:Name="tbDetails" 
+                         AcceptsReturn="True" 
+                         HorizontalAlignment="Left" 
+                         Height="90" 
+                         TextWrapping="Wrap" 
+                         VerticalAlignment="Top" 
+                         Width="238"/>
+            </WrapPanel>
+            <WrapPanel Margin="5">
+                <Label Content="Стать:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="30" 
+                       Width="152"/>
+                <WrapPanel Width="238">
+                    <RadioButton Content="котик" 
+                                 Tag="true"
+                                 Margin="40,10" 
+                                 HorizontalAlignment="Left" 
+                                 VerticalAlignment="Center"
+                                 Checked="RadioButton_Checked"/>
+                    <RadioButton Content="киця" 
+                                 Margin="10" 
+                                 Tag="false"
+                                 HorizontalAlignment="Right" 
+                                 VerticalAlignment="Center" 
+                                 Checked="RadioButton_Checked"/>
+                </WrapPanel>
+            </WrapPanel>
+            <WrapPanel>
+                <Label Content="Фото:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center" 
+                       Height="40" 
+                       Width="152"/>
+                <Button Width="238"
+                        Margin="2"
+                        Content="Вибрати" 
+                        Click="btnSelectImage_Click">
+                </Button>
+            </WrapPanel>
+            <Button Height="50" 
+                    Margin="10,20"
+                    Content="Зберегти кота" 
+                    Click="SaveCat_Click"/>
+        </StackPanel>
+    </DockPanel>
+</Window>
