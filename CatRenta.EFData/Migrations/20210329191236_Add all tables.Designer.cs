@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CatRenta.EFData.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210324182034_Add tblCats")]
-    partial class AddtblCats
+    [Migration("20210329191236_Add all tables")]
+    partial class Addalltables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,38 @@ namespace CatRenta.EFData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tblCats");
+                });
+
+            modelBuilder.Entity("CatRenta.Domain.AppCatPrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("CatId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateCreate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CatId");
+
+                    b.ToTable("tblCatPrices");
+                });
+
+            modelBuilder.Entity("CatRenta.Domain.AppCatPrice", b =>
+                {
+                    b.HasOne("CatRenta.Domain.AppCat", "Cat")
+                        .WithMany("AppCatPrices")
+                        .HasForeignKey("CatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

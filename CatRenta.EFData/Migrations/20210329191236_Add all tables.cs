@@ -4,10 +4,27 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CatRenta.EFData.Migrations
 {
-    public partial class AddtblCatPrices : Migration
+    public partial class Addalltables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "tblCats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    Birthday = table.Column<DateTime>(nullable: false),
+                    Details = table.Column<string>(maxLength: 4000, nullable: false),
+                    Gender = table.Column<bool>(nullable: false),
+                    Image = table.Column<string>(maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblCats", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "tblCatPrices",
                 columns: table => new
@@ -39,6 +56,9 @@ namespace CatRenta.EFData.Migrations
         {
             migrationBuilder.DropTable(
                 name: "tblCatPrices");
+
+            migrationBuilder.DropTable(
+                name: "tblCats");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Wpf.CatRenta
     {
         private ObservableCollection<CatVM> _cats = new ObservableCollection<CatVM>();
         private DataContext _context = new DataContext();
+        public int _catId{ get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +39,10 @@ namespace Wpf.CatRenta
                     Name = x.Name,
                     Birthday = x.Birthday,
                     Details = x.Details,
-                    ImageUrl = x.Image
+                    ImageUrl = x.Image,
+                    Price = x.AppCatPrices
+                        .OrderByDescending(x => x.DateCreate)
+                        .FirstOrDefault().Price
                 }).ToList();
             _cats = new ObservableCollection<CatVM>(list);
             dgSimple.ItemsSource = _cats;
@@ -60,17 +64,39 @@ namespace Wpf.CatRenta
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dgSimple.SelectedItem != null)
-            {
-                if (dgSimple.SelectedItem is CatVM)
-                {
-                    var userView = dgSimple.SelectedItem as CatVM;
-                    userView.Birthday = new DateTime(2003, 1, 23);
-                    userView.Details = "Пішов в гори!";
-                    userView.ImageUrl = "https://i.pinimg.com/originals/ec/5a/a9/ec5aa93a38113ea5b346cb87b5c2c941.jpg";
-                }
-            }
+            EditWindow win = new EditWindow();
+            win.Show();
+           
+
+            //if (dgSimple.SelectedItem != null)
+            //{
+            //    if (dgSimple.SelectedItem is CatVM)
+            //    {
+            //        var userView = dgSimple.SelectedItem as CatVM;
+            //        userView.Birthday = new DateTime(2003, 1, 23);
+            //        userView.Details = "Пішов в гори!";
+            //        userView.ImageUrl = "https://i.pinimg.com/originals/ec/5a/a9/ec5aa93a38113ea5b346cb87b5c2c941.jpg";
+            //    }
+            //}
         }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var cat = dgSimple.SelectedItem as CatVM;
+            var cust = (from c in _context.Cats
+                        where c.Id == cat.Id
+                        select c).FirstOrDefault();
+
+            if (cust != null)
+            {
+               
+                _context.Cats.Remove(cust);
+            }
+            _context.SaveChanges();
+            // dgSimple.Refresh();
+
+        }
+
 
     }
 }

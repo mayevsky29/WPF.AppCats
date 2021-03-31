@@ -90,7 +90,7 @@ namespace Wpf.CatRenta
 
             _cats.Add(new CatVM
             {
-                Id = cat.Id.ToString(),
+                Id = cat.Id,
                 Name = cat.Name,
                 Birthday = cat.Birthday,
                 Details = cat.Details,
