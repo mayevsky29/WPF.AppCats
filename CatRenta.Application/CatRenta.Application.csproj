@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CatRenta.Domain\CatRenta.Domain.csproj" />
     <ProjectReference Include="..\CatRenta.EFData\CatRenta.EFData.csproj" />
   </ItemGroup>
