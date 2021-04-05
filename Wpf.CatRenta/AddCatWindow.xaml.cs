@@ -1,6 +1,7 @@
 ﻿using CatRenta.Application;
 using CatRenta.Domain;
 using CatRenta.EFData;
+using CatRenta.Application.ViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace Wpf.CatRenta
     public partial class AddCatWindow : Window
     {
         private readonly ObservableCollection<CatVM> _cats;
+        private readonly CatVM catVM = new CatVM();
+
         private DataContext _context = new DataContext();
 
         /// <summary>
@@ -36,6 +39,8 @@ namespace Wpf.CatRenta
         public AddCatWindow(ObservableCollection<CatVM> cats)
         {
             InitializeComponent();
+            catVM.EnableValidation = false;
+            DataContext = catVM;
             _cats = cats;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -66,6 +71,13 @@ namespace Wpf.CatRenta
                 Directory.CreateDirectory(saveDir);
             var fileSave = Path.Combine(saveDir, imageName);
             File.Copy(FileName, fileSave);
+           
+            catVM.EnableValidation = true;
+
+            if (string.IsNullOrEmpty(catVM.Error))
+                MessageBox.Show("Bomba");
+            else
+                MessageBox.Show(catVM.Error);
 
             var cat =
                     new AppCat

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.CatRenta.Views;
 
 namespace Wpf.CatRenta
 {
@@ -95,6 +96,12 @@ namespace Wpf.CatRenta
             _context.SaveChanges();
             // dgSimple.Refresh();
 
+        }
+
+        private void btnValidation_Click(object sender, RoutedEventArgs e)
+        {
+            UserView window = new UserView();
+            window.Show();
         }
 
 

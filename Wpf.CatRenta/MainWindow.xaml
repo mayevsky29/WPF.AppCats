@@ -11,8 +11,8 @@
             <Button Name="btnAdd" Content="Додати" Click="btnAdd_Click"/>
             <Button Name="btnEdit" Content="Змінити" Margin="0,5" Click="btnEdit_Click"/>
             <Button Name="btnDelete" Content="Видалити" Margin="0,5" Click="btnDelete_Click"/>
+            <Button Name="btnValidation" Content="Валідація" Margin="0,5" Click="btnValidation_Click"/>
             
-            <!--<Button Name="btnValidation" Content="Валідація" Margin="0,5" Click="btnValidation_Click"/>-->
         </StackPanel>
 
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0">
