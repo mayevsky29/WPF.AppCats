@@ -6,12 +6,107 @@
         xmlns:local="clr-namespace:Wpf.CatRenta"
         mc:Ignorable="d"
        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+   
+    
+    
+    <!--Створення ресурсу для стилю-->
+    <Window.Resources>
+       
+        <!--<Style x:Key="BigFontButtonStyle">
+            --><!--<Setter Property="Control.FontFamily" Value="Times New Roman" />--><!--
+            
+            <Setter Property="Button.FontFamily" Value="Times New Roman" />
+            <Setter Property="Button.FontSize" Value="14" />
+            <Setter Property="Button.FontWeight" Value="Bold" />
+            <Setter Property="Button.Foreground" Value="Black"/>
+            <Setter Property="Button.Background" Value="Silver"/>
+
+            --><!--Можна так: 
+            просто прописати клас замість Control-->
+            <!--<Setter Property="TextBlock.FontFamily" Value="Times New Roman" />
+            <Setter Property="TextBlock.FontSize" Value="14" />
+            <Setter Property="TextBlock.FontWeight" Value="Bold" />--><!--
+
+        </Style>-->
+
+        <!--Створення Triggers--> 
+        <!--Зміна стилю  при наведення курсора на кнопку та коли клацнути на неї--> 
+        <Style x:Key="BigFontButton">
+            <Style.Setters>
+                <Setter Property="Button.FontFamily" Value="Times New Roman" />
+                <Setter Property="Button.FontSize" Value="14" />
+            </Style.Setters>
+
+            
+                    <!--Застосування звичайного Trigger-->
+            <!--<Style.Triggers>
+                <Trigger Property="Control.IsFocused" Value="True">
+                    <Setter Property="ItemsControl.Foreground" Value="DarkRed"/>
+                </Trigger>
+
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="ItemsControl.Foreground" Value="LightYellow"/>
+                    <Setter Property="ItemsControl.FontWeight" Value="Bold"/>
+                </Trigger>
+                <Trigger Property="Button.IsPressed" Value="True">
+                    <Setter Property="ItemsControl.Foreground" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>-->
+            
+                    <!--Застосування EventTrigger-->
+                   <!--Trigger очікує наведення курсора на кнопку, 
+                   після чого виконує анімацію, збільшуючи розмір кнопки і розмір шрифту до 22,
+                   за 0,2 секунди-->
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard> <!--дія, яка запускає анімацію-->
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Duration="0:0:0.2"
+                                    Storyboard.TargetProperty="FontSize"
+                                    To="22"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                
+                          <!--Повертає кнопку до початкового розміру-->
+                <EventTrigger RoutedEvent="Mouse.MouseLeave"> 
+                    <EventTrigger.Actions>
+                        <BeginStoryboard> 
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Duration="0:0:1"
+                                    Storyboard.TargetProperty="FontSize"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                
+                
+            </Style.Triggers>
+                
+                    
+            
+            
+        </Style>
+    </Window.Resources>
+
+
+
+
     <DockPanel Margin="10">
         <StackPanel DockPanel.Dock="Right" Margin="10,0,0,0" Width="150">
-            <Button Name="btnAdd" Content="Додати" Click="btnAdd_Click"/>
-            <Button Name="btnEdit" Content="Змінити" Margin="0,5" Click="btnEdit_Click"/>
-            <Button Name="btnDelete" Content="Видалити" Margin="0,5" Click="btnDelete_Click"/>
-            <Button Name="btnValidation" Content="Валідація" Margin="0,5" Click="btnValidation_Click"/>
+            <Button Name="btnAdd" Content="Додати" Click="btnAdd_Click" 
+                    Style="{StaticResource BigFontButton}"/> <!--додавання ресурсу із стилем-->
+            
+            <Button Name="btnEdit" Content="Змінити" Margin="0,5" Click="btnEdit_Click"
+                    Style="{StaticResource BigFontButton}"/>
+            <Button Name="btnDelete" Content="Видалити" Margin="0,5" Click="btnDelete_Click"
+                    Style="{StaticResource BigFontButton}"/>
+            <Button Name="btnValidation" Content="Валідація" Margin="0,5" Click="btnValidation_Click"
+                    Style="{StaticResource BigFontButton}"/>
             
         </StackPanel>
 

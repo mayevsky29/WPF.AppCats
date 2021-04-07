@@ -51,9 +51,10 @@ namespace Wpf.CatRenta
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            
             AddCatWindow addCat = new AddCatWindow(this._cats);
             addCat.Show();
-
+            
             //_cats.Add(new CatVM
             //{
             //    Name = "Петро",
@@ -67,8 +68,7 @@ namespace Wpf.CatRenta
         {
             EditWindow win = new EditWindow();
             win.Show();
-           
-
+         
             //if (dgSimple.SelectedItem != null)
             //{
             //    if (dgSimple.SelectedItem is CatVM)
