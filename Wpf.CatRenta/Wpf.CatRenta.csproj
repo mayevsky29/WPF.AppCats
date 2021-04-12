@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CatRenta.Application\CatRenta.Application.csproj" />
+    <ProjectReference Include="..\CatRenta.Infrastructure\CatRenta.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

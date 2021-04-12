@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using CatRenta.Domain;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CatRenta.EFData
 {
     public class DataSeed
     {
-        public static void SeedDataAsync(DataContext context)
+        public static void SeedData(DataContext context)
         {
             if (!context.Cats.Any())
             {
@@ -31,7 +32,6 @@ namespace CatRenta.EFData
                     context.SaveChanges();
                 }
             }
-
             if (!context.CatPrices.Any())
             {
                 var cat = context.Cats.FirstOrDefault();
@@ -57,6 +57,12 @@ namespace CatRenta.EFData
                     context.SaveChanges();
                 }
             }
+
+        }
+        public static Task SeedDataAsync(DataContext context)
+        {
+            return Task.Run(() => SeedData(context));
+
         }
     }
 }

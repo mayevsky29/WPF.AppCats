@@ -65,7 +65,7 @@
                                 <DoubleAnimation
                                     Duration="0:0:0.2"
                                     Storyboard.TargetProperty="FontSize"
-                                    To="22"/>
+                                    To="18"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger.Actions>
@@ -107,9 +107,45 @@
                     Style="{StaticResource BigFontButton}"/>
             <Button Name="btnValidation" Content="Валідація" Margin="0,5" Click="btnValidation_Click"
                     Style="{StaticResource BigFontButton}"/>
-            
+
+            <Button Name="btnAddRange" Content="Додати множину" Margin="0,5" Click="btnAddRange_Click"
+                    Style="{StaticResource BigFontButton}"/>
+            <Button Name="btnCancel" Content="Скасувати" Margin="0,5" Click="btnCancelAddRange_Click"
+                    Style="{StaticResource BigFontButton}"/>
+            <Button Name="btnPause" Content="Пауза" Margin="0,5" Click="btnPauseAddRange_Click"
+                    Style="{StaticResource BigFontButton}"/>
+
         </StackPanel>
 
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <TextBlock Name="lblCursorPosition"  />
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Name = "lblInfoStatus"  Text="Козак" />
+            </StatusBarItem>
+            <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4">
+                <ProgressBar Name="pbCats" Value="0" Width="90" Height="16" />
+            </StatusBarItem>
+        </StatusBar>
+        
+        
+        
         <DataGrid Name="dgSimple" AutoGenerateColumns="false" Grid.Column="0" Grid.Row="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Назва" Binding="{Binding Name}"/>
