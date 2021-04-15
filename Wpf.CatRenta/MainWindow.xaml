@@ -114,6 +114,8 @@
                     Style="{StaticResource BigFontButton}"/>
             <Button Name="btnPause" Content="Пауза" Margin="0,5" Click="btnPauseAddRange_Click"
                     Style="{StaticResource BigFontButton}"/>
+            <Button Name="btnResume" Content="Продовжити" Margin="0,5" Click="btnResume_Click"
+                    Style="{StaticResource BigFontButton}"/>
 
         </StackPanel>
 

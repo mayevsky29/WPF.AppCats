@@ -143,7 +143,13 @@ namespace Wpf.CatRenta
         private void btnPauseAddRange_Click(object sender, RoutedEventArgs e)
         {
             this.Pause();
+            
         }
+        private void btnResume_Click(object sender, RoutedEventArgs e)
+        {
+            this.Resume();
+        }
+
 
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
@@ -229,6 +235,6 @@ namespace Wpf.CatRenta
             window.Show();
         }
 
-
+        
     }
 }
