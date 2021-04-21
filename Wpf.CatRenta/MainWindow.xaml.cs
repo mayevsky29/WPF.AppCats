@@ -28,18 +28,26 @@ namespace Wpf.CatRenta
     /// </summary>
     public partial class MainWindow : Window
     {
+        // створення колекції котів
         private ObservableCollection<CatVM> _cats = new ObservableCollection<CatVM>();
+        
+        // створення підключення до БД
         private DataContext _context = new DataContext();
         public int _catId{ get; set; }
 
+
         private ICatService _catService = new CatService();
+
+        // створення обєкту, який зупиняє роботу потоку, керується вручну
         ManualResetEvent _mrse = new ManualResetEvent(false);
         bool abort = false;
-
+        // методи, за домогою яких відбувається керування потоками
         public void Resume() => _mrse.Set();
         public void Pause() => _mrse.Reset();
 
-
+        /// <summary>
+        /// конструктор для ініціалізації вікна
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -47,12 +55,15 @@ namespace Wpf.CatRenta
 
            // DataSeed.SeedDataAsync(_context);
         }
+
         public async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             lblInfoStatus.Text = "Підключаємося до БД-----";
+            // створення обєкту, для вимірювання часу підключення до баз даних
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
+            // асинхроний потік, який підраховує кількість обєктів в базі даних(в даному випадку котів)
             await Task.Run(() =>
             {
                 _context.Cats.Count(); //jніціалуємо підклчюення
@@ -70,10 +81,13 @@ namespace Wpf.CatRenta
             lblCursorPosition.Text = elapsedTime;
             lblInfoStatus.Text = "Підключення до БД успішно";
 
+            // потік, який заповнює бд
             await DataSeed.SeedDataAsync(_context);
-
+            // вимірює затрачений час на завантаження котів з бд
             stopWatch = new Stopwatch();
             stopWatch.Start();
+
+            // ініціалізація колекції елементів з бази даних
             var list = _context.Cats.AsQueryable()//.AsParallel()
                 .Select(x => new CatVM()
                 {
@@ -106,82 +120,71 @@ namespace Wpf.CatRenta
             dgSimple.ItemsSource = _cats;
         }
 
-
-
+        /// <summary>
+        /// Додавання обєкта в базу даних 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             
             AddCatWindow addCat = new AddCatWindow(this._cats);
             addCat.Show();
-            
-            //_cats.Add(new CatVM
-            //{
-            //    Name = "Петро",
-            //    Birthday = new DateTime(2000, 5, 15),
-            //    Details = "Дружить із директром Іванкой",
-            //    ImageUrl = "https://icdn.lenta.ru/images/2020/01/28/17/20200128170822958/square_320_9146846fb3b1bfae5672755bc1896214.jpg"
-            //});
         }
-
+        /// <summary>
+        /// Дозволяє редагування даних про обєкти(котів), які вже створені
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
             EditWindow win = new EditWindow();
             win.Show();
-         
-            //if (dgSimple.SelectedItem != null)
-            //{
-            //    if (dgSimple.SelectedItem is CatVM)
-            //    {
-            //        var userView = dgSimple.SelectedItem as CatVM;
-            //        userView.Birthday = new DateTime(2003, 1, 23);
-            //        userView.Details = "Пішов в гори!";
-            //        userView.ImageUrl = "https://i.pinimg.com/originals/ec/5a/a9/ec5aa93a38113ea5b346cb87b5c2c941.jpg";
-            //    }
-            //}
         }
-
+        /// <summary>
+        /// зупиняє роботу потоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPauseAddRange_Click(object sender, RoutedEventArgs e)
         {
             this.Pause();
-            
         }
+        /// <summary>
+        /// відновлює роботу потоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnResume_Click(object sender, RoutedEventArgs e)
         {
             this.Resume();
         }
-
-
+        /// <summary>
+        /// скасовує роботу потоку
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCancelAddRange_Click(object sender, RoutedEventArgs e)
         {
-            //ShowMessage();
             _catService.CanselAsyncMethod = true;
-            //abort = true;
         }
-
+        /// <summary>
+        /// запускає потік, який додає задану кількість котів в бд
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void btnAddRange_Click(object sender, RoutedEventArgs e)
         {
             Debug.WriteLine("Thread id: {0}", Thread.CurrentThread.ManagedThreadId);
-            //btnAddRange.IsEnabled = false;
-            //ShowMessage();
-            //Action action = ShowMessage;
-            //Task task = new Task(action);
-            //Task task = new Task(() => ShowMessage());
-            //task.Start();
-            //MessageBox.Show(Environment.ProcessorCount.ToString());
-            //Task.Run(() => ShowMessage());
-
+            
             btnAddRange.IsEnabled = false;
-
             this.Resume();
-
+            // кількість котів які додаються за один потік
             int count = 100;
             pbCats.Maximum = count;
+            // асинхронний потік, який додає котів в бд
             await _catService.InsertCatsAsync(count, _mrse);
             btnAddRange.IsEnabled = true;
-
-            //Thread thread = new Thread(ShowMessage);
-            //thread.IsBackground = true;
-            //thread.Start();
         }
 
         private void ShowMessage()
@@ -206,12 +209,15 @@ namespace Wpf.CatRenta
             {
                 btnAddRange.Content = $"{i}";
                 pbCats.Value = i;
-                //Debug.WriteLine("Thread id: {0}", Thread.CurrentThread.ManagedThreadId);
             }));
 
         }
 
-
+        /// <summary>
+        /// видалення обєкта з бд
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             var cat = dgSimple.SelectedItem as CatVM;
@@ -225,8 +231,6 @@ namespace Wpf.CatRenta
                 _context.Cats.Remove(cust);
             }
             _context.SaveChanges();
-            // dgSimple.Refresh();
-
         }
 
         private void btnValidation_Click(object sender, RoutedEventArgs e)
